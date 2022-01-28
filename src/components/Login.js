@@ -1,7 +1,7 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import styled from 'styled-components';
+import axiosWithAuth from '../utils/axiosWithAuth';
 
 const Login = () => {
     const [details, setDetails] = useState({
@@ -19,9 +19,9 @@ const Login = () => {
         })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = e => {
         e.preventDefault();
-        axios.post(`http://localhost:5000/api/login`, details)
+        axiosWithAuth().post(`/login`, details)
             .then(res => {
                 const { token, role, username } = res.data;
                 localStorage.setItem('Token', token);
@@ -70,7 +70,9 @@ const Login = () => {
         </ModalContainer>
     </ComponentContainer>);
 }
+
 export default Login;
+
 //Task List
 //1. Build login form DOM from scratch, making use of styled components if needed. Make sure the username input has id="username" and the password input as id="password".
 //2. Add in a p tag with the id="error" under the login form for use in error display.
@@ -84,6 +86,10 @@ const ComponentContainer = styled.div`
     justify-content: center;
     align-items: center;
     display:flex;
+    color: black;
+    p{
+        color: red;
+    }
 `
 
 const ModalContainer = styled.div`
